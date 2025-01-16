@@ -3,7 +3,7 @@
 spl_autoload_register(function ($className) {
     // Base directory (src)
     $baseDir = __DIR__ . '/../src/';
-    
+
     // Déterminer le répertoire en fonction du suffixe du nom de la classe
     switch (true) {
         case substr($className, -10) === 'Repository':
@@ -20,6 +20,12 @@ spl_autoload_register(function ($className) {
             break;
         case substr($className, -10) === 'Controller':
             $directory = 'Controllers';
+            break;
+        case substr($className, -7) === 'Service':
+            $directory = 'Services';
+            break;
+        case substr($className, -5) === 'Trait':
+            $directory = 'Traits';
             break;
         default:
             $directory = 'Entities';

@@ -17,14 +17,7 @@
 
         <!-- Créer un Héros -->
         <section class="mt-12">
-            <h2 class="text-3xl font-bold text-center text-red-500 mb-8">Créer un Héros</h2>
-            <form action="create_hero.php" method="POST" class="space-y-6 max-w-lg mx-auto">
-                <div>
-                    <label for="hero-name" class="block text-lg text-white">Nom du Héros</label>
-                    <input type="text" id="hero-name" name="hero_name" placeholder="Nom du héros" class="bg-gray-800 text-white border-2 border-red-600 rounded-lg py-3 px-4 w-full focus:outline-none focus:border-red-500">
-                </div>
-                <button type="submit" class="bg-gradient-to-r from-red-500 to-red-700 text-white px-6 py-3 rounded-full font-bold w-full shadow-lg transition-transform hover:scale-105">Créer Héros</button>
-            </form>
+            <a href="./createYourHero.php"><h2 class="text-3xl font-bold text-center text-red-500 mb-8">Créer votre héros dès maintenant !</h2></a>
         </section>
 
     </main>
