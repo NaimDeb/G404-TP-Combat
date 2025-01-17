@@ -68,21 +68,23 @@ if (!$validator->validate($_FILES)) {
 
 
 
-
+if(isset($_FILES) && empty($_FILES)){
 // ! On envoie le fichier dans le bon dossier
 
-$file = $_FILES["hero_image"];
-$uploadDir = '../public/assets/image/Heroes/';
+    $file = $_FILES["hero_image"];
+    $uploadDir = '../public/assets/image/Heroes/';
 
-$fileName = uniqid() . basename($file['name']);
+    $fileName = uniqid() . basename($file['name']);
 
-$uploadPath = $uploadDir . $fileName;
+    $uploadPath = $uploadDir . $fileName;
 
-  
-move_uploaded_file($file['tmp_name'], $uploadPath);
+    
+    move_uploaded_file($file['tmp_name'], $uploadPath);
 
-// On récupère le filename et on le met l'array final
-$sanitizedPOST["filename"] = $fileName;
+    // On récupère le filename et on le met l'array final
+    $sanitizedPOST["filename"] = $fileName;
+
+}
 
 
 // // On crée l'utilisateur
@@ -92,6 +94,8 @@ $hero = $myRepository->createHero($sanitizedPOST);
 
 
 $_COOKIE["currentHero"] = $hero;
+
+header('location: ../public/index.php')
 
 
 
