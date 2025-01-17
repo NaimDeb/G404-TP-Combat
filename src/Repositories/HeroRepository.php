@@ -53,7 +53,7 @@ final class HeroRepository extends AbstractRepository{
      * 'con' => int 10
      * 'fileName' => string '678a06c585c75firefox_4GYvhnVBtu.png' (length=35)
      */
-    public function createHero(array $data){
+    public function createHero(array $data): Hero{
         $query = "INSERT INTO hero (name, url_image) VALUES (:hero_name, :filename)";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':hero_name', $data['hero_name'], PDO::PARAM_STR);
@@ -78,7 +78,9 @@ final class HeroRepository extends AbstractRepository{
 
         $data["id"] = $heroId;
 
-        HeroMapper::MapToObject($data);
+        return HeroMapper::MapToObject($data);
+
+
 
 
     }

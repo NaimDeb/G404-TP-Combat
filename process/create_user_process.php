@@ -88,7 +88,11 @@ $sanitizedPOST["filename"] = $fileName;
 // // On crée l'utilisateur
 $myRepository = new HeroRepository;
 
-$myRepository->createHero($sanitizedPOST);
+$hero = $myRepository->createHero($sanitizedPOST);
+
+
+$_COOKIE["currentHero"] = $hero;
+
 
 
 
