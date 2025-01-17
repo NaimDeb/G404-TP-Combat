@@ -5,14 +5,16 @@ final class Hero extends Entity{
 
     use inDatabaseTrait;
 
-
-    public function __construct(int $id,string $name, int $hp = 100, string $image_url = "defaultHero.png")
+    public function __construct(string $name, string $image_url = "defaultHero.png")
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->hp = $hp;
+        parent::__construct($name);
+
         $this->image_url = "./assets/image/Heroes/" . $image_url;
 
+        $this->level = 1;
+
+        // todo: Calculate health points
+        $this->healthPoints = 100;
     }
 
 
@@ -35,6 +37,26 @@ final class Hero extends Entity{
         public function setId($id)
         {
                 $this->id = $id;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of image_url
+         */ 
+        public function getImage_url()
+        {
+                return $this->image_url;
+        }
+
+        /**
+         * Set the value of image_url
+         *
+         * @return  self
+         */ 
+        public function setImage_url($image_url)
+        {
+                $this->image_url = $image_url;
 
                 return $this;
         }

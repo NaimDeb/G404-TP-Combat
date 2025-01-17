@@ -1,12 +1,7 @@
 <?php
 
-class HeroRepository {
+final class HeroRepository extends AbstractRepository{
 
-    private PDO $db;
-
-    public function __construct() {
-        $this->db = Database::getInstance();
-    }
 
     public function fetchUserByID(int $id) : ?Hero  {
         $query = "SELECT * FROM hero WHERE id = :id";
@@ -20,6 +15,7 @@ class HeroRepository {
             return null;
         }
 
+        // todo: heromapper
         return HeroMapper::mapToObject($userData);
 
     }
@@ -48,15 +44,46 @@ class HeroRepository {
 
     }
 
-    public function createUser($name) {
-        $query = "INSERT INTO heroes (name, power) VALUES (:name, :power)";
+    /**
+     * array (size=6)
+     * 'hero_name' => string 'Jordan' (length=6)
+     * 'str' => int 10
+     * 'int' => int 10
+     * 'dex' => int 10
+     * 'con' => int 10
+     * 'fileName' => string '678a06c585c75firefox_4GYvhnVBtu.png' (length=35)
+     */
+    public function createHero(array $data){
+        $query = "INSERT INTO hero (name, url_image) VALUES (:hero_name, :filename)";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $stmt->bindParam(':power', $power, PDO::PARAM_STR);
+        $stmt->bindParam(':hero_name', $data['hero_name'], PDO::PARAM_STR);
+        $stmt->bindParam(':filename', $data['filename'], PDO::PARAM_STR);
         $stmt->execute();
+
+        $heroId = $this->db->lastInsertId();
+
+
+        // On insère les stats
+        $query = "INSERT INTO herostat (id_hero, stat_name, stat_value) VALUES (:id_hero, :stat_name, :stat_value)";
+        $stmt = $this->db->prepare($query);
+
+        foreach ($data as $key => $value) {
+            if ($key !== 'hero_name' && $key !== 'filename') {
+                $stmt->bindParam(':id_hero', $heroId, PDO::PARAM_INT);
+                $stmt->bindParam(':stat_name', $key, PDO::PARAM_STR);
+                $stmt->bindParam(':stat_value', $value, PDO::PARAM_STR);
+                $stmt->execute();
+            }
+        }
+
+        $data["id"] = $heroId;
+
+        HeroMapper::MapToObject($data);
 
 
     }
+
+
 }
 
 ?>
