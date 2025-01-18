@@ -29,7 +29,7 @@ $validator->addStrategy("con", new IntegerValidator(99));;
 
 if (!$validator->validate($_POST)) {
 
-    header('location: ../public/create-hero.php?error=1');
+    header('location: ../public/createYourHero.php?error=1');
     return;
 }
 
@@ -47,7 +47,7 @@ foreach ($attributes as $attribute) {
 }
 
 if ($total > 50) {
-    header('location: ../public/create-hero.php?error=cheater');
+    header('location: ../public/createYourHero.php?error=cheater');
     return;
 }
 
@@ -56,20 +56,25 @@ if ($total > 50) {
 
 // ! Validation données FILES
 
+
+
 // hero_image
-$validator->addStrategy("hero_image", new ImageFileValidator);
-
-
-if (!$validator->validate($_FILES)) {
-
-    header('location: ../public/create-hero.php?error=1');
-    return;
-}
+if (isset($_FILES) && $_FILES['hero_image']['error'] === UPLOAD_ERR_OK) {
 
 
 
-if(isset($_FILES) && empty($_FILES)){
-// ! On envoie le fichier dans le bon dossier
+    $validator->addStrategy("hero_image", new ImageFileValidator);
+
+
+    if (!$validator->validate($_FILES)) {
+
+        header('location: ../public/createYourHero.php?error=2');
+        return;
+    }
+
+
+
+    // ! On envoie le fichier dans le bon dossier
 
     $file = $_FILES["hero_image"];
     $uploadDir = '../public/assets/image/Heroes/';
@@ -78,14 +83,12 @@ if(isset($_FILES) && empty($_FILES)){
 
     $uploadPath = $uploadDir . $fileName;
 
-    
+
     move_uploaded_file($file['tmp_name'], $uploadPath);
 
     // On récupère le filename et on le met l'array final
     $sanitizedPOST["filename"] = $fileName;
-
-}
-
+};
 
 // // On crée l'utilisateur
 $myRepository = new HeroRepository;
@@ -95,9 +98,4 @@ $hero = $myRepository->createHero($sanitizedPOST);
 
 $_COOKIE["currentHero"] = $hero;
 
-header('location: ../public/index.php')
-
-
-
-
-?>
+header('location: ../public/index.php');

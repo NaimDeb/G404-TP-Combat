@@ -9,11 +9,15 @@ class HeroMapper
     {
         $hero = new Hero(
             $data['hero_name'],
-            $data['filename']
+            
 
         );
 
         $hero->setId($data['id']);
+
+        if(isset($data['filename'])){
+        $hero->setImage_url($data['filename']);
+        }
 
 
         foreach ($data as $stat => $value) {

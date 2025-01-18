@@ -54,10 +54,13 @@ final class HeroRepository extends AbstractRepository{
      * 'fileName' => string '678a06c585c75firefox_4GYvhnVBtu.png' (length=35)
      */
     public function createHero(array $data): Hero{
+
+        $filename = isset($data['filename']) ? $data["filename"] : "defaultHero.png";
+
         $query = "INSERT INTO hero (name, url_image) VALUES (:hero_name, :filename)";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':hero_name', $data['hero_name'], PDO::PARAM_STR);
-        $stmt->bindParam(':filename', $data['filename'], PDO::PARAM_STR);
+        $stmt->bindParam(':filename', $filename , PDO::PARAM_STR);
         $stmt->execute();
 
         $heroId = $this->db->lastInsertId();

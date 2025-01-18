@@ -9,6 +9,9 @@ class ImageFileValidator implements ValidationContract
 {
     public function validate($value): bool
     {
+        if (!isset($value)){
+            return true;
+        }
 
         if(!getimagesize($value['tmp_name'])){
             var_dump("image size bouuuu");

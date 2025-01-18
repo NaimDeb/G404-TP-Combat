@@ -18,6 +18,10 @@ public function __construct($maxValue = null, $minValue = null)
     public function validate($value): bool
     {
 
+        if  (!filter_var($value, FILTER_VALIDATE_INT)){
+            return false;
+        }
+
         if (isset($this->maxValue) && $value > $this->maxValue) {
             return false;
         }
