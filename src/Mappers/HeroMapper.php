@@ -7,32 +7,20 @@ class HeroMapper
 {
     public static function MapToObject(array $data): Hero
     {
-        $hero = new Hero(
-            $data['hero_name'],
-            
 
-        );
+        $hero = new Hero($data["name"], $data["url_image"] );
 
-        $hero->setId($data['id']);
+        $hero->setId($data['id'], $data['url_image']);
+        $hero->setLevel($data["level"]);
 
-        if(isset($data['filename'])){
-        $hero->setImage_url($data['filename']);
+        foreach (explode(',', $data["stats"]) as $stat) {
+            list($name, $value) = explode(':', $stat);
+            $statName = trim($name);
+            $value = intval(trim($value));
+            $hero->changeExistingStat($statName, $value);
         }
 
-
-        foreach ($data as $stat => $value) {
-
-            if (!in_array($stat, ['hero_name', 'filename', 'id'])) {
-
-            $hero->changeExistingStat($stat, $value);
-
-            }
-
-        }
-
-        
-
-
+        $hero->updateSecondaryStats();
 
         return $hero;
     }

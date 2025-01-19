@@ -100,7 +100,7 @@ abstract class Entity {
      */ 
     public function setStat(int $stat, string $statName)
     {
-        $this->stats["statName"] = $stat;
+        $this->stats[$statName] = $stat;
 
         return $this;
     }
@@ -111,6 +111,7 @@ abstract class Entity {
         if ($this->getSingleStat($statName) == null){
             return;
         }
+
 
         $this->setStat($stat, $statName);
 
@@ -135,6 +136,18 @@ abstract class Entity {
     public function setLevel($level)
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of image_url
+     *
+     * @return  self
+     */ 
+    public function setImage_url($image_url)
+    {
+        $this->image_url = $image_url;
 
         return $this;
     }

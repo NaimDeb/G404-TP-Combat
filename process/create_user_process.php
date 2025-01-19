@@ -95,7 +95,8 @@ $myRepository = new HeroRepository;
 
 $hero = $myRepository->createHero($sanitizedPOST);
 
+session_start();
+$_SESSION["currentHero"] = $hero;
+setcookie("currentHeroId", $hero->getId(), time() + (365 * 24 * 60 * 60));
 
-$_COOKIE["currentHero"] = $hero;
-
-header('location: ../public/index.php');
+header('location: ../public/fight.php');

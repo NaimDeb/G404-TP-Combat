@@ -1,47 +1,109 @@
 <?php
 
-final class HeroRepository extends AbstractRepository{
+final class HeroRepository extends AbstractRepository
+{
 
 
-    public function fetchUserByID(int $id) : ?Hero  {
-        $query = "SELECT * FROM hero WHERE id = :id";
+    // todo : add competences
+    public function fetchHeroByID(int $id): ?Hero
+    {
+        $query = "SELECT 
+        hero.id, 
+        hero.name, 
+        hero.url_image, 
+        hero.isDead, 
+        hero.level,
+        GROUP_CONCAT(CONCAT(herostat.stat_name, ': ', herostat.stat_value) SEPARATOR ', ') AS stats
+        FROM 
+            hero 
+        JOIN 
+            herostat 
+        ON 
+            hero.id = herostat.id_hero 
+        WHERE 
+            hero.id = :id
+        GROUP BY 
+            hero.id, hero.name, hero.url_image, hero.isDead, hero.level;";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
         $userData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if(!$userData) {
+        if (!$userData) {
             return null;
         }
 
-        // todo: heromapper
         return HeroMapper::mapToObject($userData);
-
     }
 
-    public function fetchAll() : array  {
-        $query = "SELECT * FROM hero";
+
+    public function fetchAllHeroes(): array
+    {
+        $query = "SELECT 
+        hero.id, 
+        hero.name, 
+        hero.url_image, 
+        hero.isDead, 
+        hero.level,
+        GROUP_CONCAT(CONCAT(herostat.stat_name, ':', herostat.stat_value) SEPARATOR ',') AS stats
+        FROM 
+            hero 
+        JOIN 
+            herostat 
+        ON 
+            hero.id = herostat.id_hero 
+        GROUP BY 
+            hero.id, hero.name, hero.url_image, hero.isDead, hero.level;";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
 
-        $usersData = $stmt->fetch(PDO::FETCH_ASSOC);
+        $usersData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $userDataList = [];
 
-        if($usersData) {
+        if ($usersData) {
 
             foreach ($usersData as $userData) {
-                HeroMapper::mapToObject($userData);
+                $userDataList[] = HeroMapper::mapToObject($userData);
             }
-
-
-
         }
-        
-        
         return $userDataList;
+    }
 
+    public function fetchAllDeadHeroes(): array
+    {
+        $query = "SELECT 
+        hero.id, 
+        hero.name, 
+        hero.url_image, 
+        hero.isDead, 
+        hero.level,
+        GROUP_CONCAT(CONCAT(herostat.stat_name, ': ', herostat.stat_value) SEPARATOR ', ') AS stats
+        FROM 
+            hero 
+        JOIN 
+            herostat 
+        ON 
+            hero.id = herostat.id_hero 
+        WHERE
+            hero.isDead = 1
+        GROUP BY 
+            hero.id, hero.name, hero.url_image, hero.isDead, hero.level;";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+
+        $usersData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $userDataList = [];
+
+        if ($usersData) {
+
+            foreach ($usersData as $userData) {
+                $userDataList[] = HeroMapper::mapToObject($userData);
+            }
+        }
+        return $userDataList;
     }
 
     /**
@@ -53,14 +115,17 @@ final class HeroRepository extends AbstractRepository{
      * 'con' => int 10
      * 'fileName' => string '678a06c585c75firefox_4GYvhnVBtu.png' (length=35)
      */
-    public function createHero(array $data): Hero{
+    public function createHero(array $data): Hero
+    {
 
+        // Checking if the data has a filename or not
         $filename = isset($data['filename']) ? $data["filename"] : "defaultHero.png";
+
 
         $query = "INSERT INTO hero (name, url_image) VALUES (:hero_name, :filename)";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':hero_name', $data['hero_name'], PDO::PARAM_STR);
-        $stmt->bindParam(':filename', $filename , PDO::PARAM_STR);
+        $stmt->bindParam(':filename', $filename, PDO::PARAM_STR);
         $stmt->execute();
 
         $heroId = $this->db->lastInsertId();
@@ -79,16 +144,7 @@ final class HeroRepository extends AbstractRepository{
             }
         }
 
-        $data["id"] = $heroId;
 
-        return HeroMapper::MapToObject($data);
-
-
-
-
+        return $this->fetchHeroByID($heroId);
     }
-
-
 }
-
-?>

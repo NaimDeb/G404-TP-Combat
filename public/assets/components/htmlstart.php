@@ -1,7 +1,7 @@
 <?php
 
 include_once "../utils/autoloader.php";
-
+session_start();
 
 ?>
 
