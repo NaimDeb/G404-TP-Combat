@@ -7,7 +7,13 @@ abstract class Entity {
     protected string $image_url;
     protected array $stats;
     protected int $level;
+
+    protected int $maxHealthPoints;
     protected int $healthPoints;
+
+    protected int $attackSpeed;
+    protected int $attackDamage;
+    protected int $skillDamage;
     
     
     public function __construct(string $name)
@@ -21,7 +27,31 @@ abstract class Entity {
             "con" => 10,
         ];
 
+        $this->level = 1;
+
+        // todo: Calculate health points
+        $this->maxHealthPoints = 100;
+        $this->healthPoints = $this->maxHealthPoints;
+
         
+
+
+
+    }
+
+    public function attack($target): int{
+
+        // todo : defense
+        // todo : crit
+        // Attack Damage with a variation between x0.75 to x1.5 with a preference near of a multiplier near 1
+        $totalDamage = ceil(($this->getAttackDamage()) * (pow((mt_rand() / mt_getrandmax() * (1.5 - 0.75) + 0.75) - 0.75, 1.5) + 0.75));
+
+        $targetHealth = max(0, ($target->getHealthPoints() - $totalDamage));
+
+        $target->setHealthPoints($targetHealth); 
+
+        return $totalDamage;
+
     }
 
     /**
@@ -151,6 +181,69 @@ abstract class Entity {
 
         return $this;
     }
+
+
+    public function updateSecondaryStats(): self{
+
+
+        // Update les stats et heal la différence
+        $healthPointDiff = $this->maxHealthPoints;
+
+        // On change maxHealthPoints basé sur la constitution
+        $this->maxHealthPoints = $this->stats["con"] * 10;
+
+        // On prend la différence entre avant et maintenant
+        $healthPointDiff = $this->maxHealthPoints - $healthPointDiff;
+
+        // On l'ajoute au points de vie
+        $this->healthPoints += $healthPointDiff;
+
+        // On change le reste des stats normalement.
+        $this->attackSpeed = $this->stats["dex"];
+        // todo : dodge chance
+        $this->attackDamage = $this->stats["str"] * 2;
+        $this->skillDamage = $this->stats["int"] * 2;
+
+        return $this;
+
+}
+
+
+
+/**
+ * Get the value of maxHealthPoints
+ */ 
+public function getMaxHealthPoints()
+{
+        return $this->maxHealthPoints;
+}
+
+
+/**
+ * Get the value of attackSpeed
+ */ 
+public function getAttackSpeed()
+{
+        return $this->attackSpeed;
+}
+
+
+/**
+ * Get the value of attackDamage
+ */ 
+public function getAttackDamage()
+{
+        return $this->attackDamage;
+}
+
+
+/**
+ * Get the value of skillDamage
+ */ 
+public function getSkillDamage()
+{
+        return $this->skillDamage;
+}
 }
 
 ?>

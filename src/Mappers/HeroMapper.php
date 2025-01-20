@@ -10,7 +10,7 @@ class HeroMapper
 
         $hero = new Hero($data["name"], $data["url_image"] );
 
-        $hero->setId($data['id'], $data['url_image']);
+        $hero->setId($data['id']);
         $hero->setLevel($data["level"]);
 
         foreach (explode(',', $data["stats"]) as $stat) {
