@@ -48,7 +48,7 @@ $fight = new FightManager($myHero, $myEnemy);
 
 
         <!-- Hero -->
-        <div>
+        <div id="heroDiv">
             <?php echo $fight->displayEntity($myHero); ?>
         </div>
 
@@ -63,8 +63,17 @@ $fight = new FightManager($myHero, $myEnemy);
 
 
         <!-- Enemy -->
-        <div>
+        <div id="enemyDiv">
             <?= $fight->displayEntity($myEnemy); ?>
         </div>
+
+
     </section>
+
+    <div id="nextButton" class="m-auto bg-yellow-400 rounded px-4 py-2 ">aaaa</div>
+
+
+
+
+
 </main>

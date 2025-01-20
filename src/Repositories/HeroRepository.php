@@ -13,7 +13,7 @@ final class HeroRepository extends AbstractRepository
         hero.url_image, 
         hero.isDead, 
         hero.level,
-        GROUP_CONCAT(CONCAT(herostat.stat_name, ': ', herostat.stat_value) SEPARATOR ', ') AS stats
+        GROUP_CONCAT(CONCAT(herostat.stat_name, ':', herostat.stat_value) SEPARATOR ',') AS stats
         FROM 
             hero 
         JOIN 
