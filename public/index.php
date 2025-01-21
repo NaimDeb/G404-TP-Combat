@@ -28,7 +28,7 @@ include_once "./assets/components/htmlstart.php";
             } else {
                 foreach ($allHeroes as $hero) {
                 ?>
-                    <div class="group hero-card w-[200px] p-4 bg-gray-800 rounded-lg shadow-lg h-[250px] hover:h-[350px] transition-all overflow-y-hidden ">
+                    <div class="group hero-card min-w-[200px] max-w-[200px] w-[200px] p-4 bg-gray-800 rounded-lg shadow-lg h-[250px] hover:h-[350px] transition-all overflow-y-hidden ">
                         <img src="<?php echo $hero->getImage_Url(); ?>" alt="<?php echo $hero->getName(); ?>" class="hero-image w-full h-[150px] object-cover rounded-md">
                         <h3 class="hero-name text-xl text-white font-bold mt-2 truncate" title="<?php echo $hero->getName(); ?>">
                             <?php echo $hero->getName(); ?>

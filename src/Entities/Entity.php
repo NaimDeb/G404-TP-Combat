@@ -7,6 +7,7 @@ abstract class Entity {
     protected string $image_url;
     protected array $stats;
     protected int $level;
+    protected bool $isDead;
 
     protected int $maxHealthPoints;
     protected int $healthPoints;
@@ -16,7 +17,7 @@ abstract class Entity {
     protected int $skillDamage;
     
     
-    public function __construct(string $name)
+    public function __construct(string $name, bool $isDead)
     {
         $this->name = $name;
 
@@ -33,8 +34,7 @@ abstract class Entity {
         $this->maxHealthPoints = 100;
         $this->healthPoints = $this->maxHealthPoints;
 
-        
-
+        $this->isDead = $isDead;
 
 
     }
@@ -244,6 +244,14 @@ public function getSkillDamage()
 {
         return $this->skillDamage;
 }
+
+    /**
+     * Get the value of isDead
+     */ 
+    public function getIsDead()
+    {
+        return $this->isDead;
+    }
 }
 
 ?>

@@ -8,7 +8,7 @@ class HeroMapper
     public static function MapToObject(array $data): Hero
     {
 
-        $hero = new Hero($data["name"], $data["url_image"] );
+        $hero = new Hero($data["name"], $data["url_image"], $data["isDead"] );
 
         $hero->setId($data['id']);
         $hero->setLevel($data["level"]);

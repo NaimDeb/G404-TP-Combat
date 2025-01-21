@@ -115,6 +115,8 @@ final class HeroRepository extends AbstractRepository
      * 'con' => int 10
      * 'fileName' => string '678a06c585c75firefox_4GYvhnVBtu.png' (length=35)
      */
+
+
     public function createHero(array $data): Hero
     {
 
@@ -147,4 +149,28 @@ final class HeroRepository extends AbstractRepository
 
         return $this->fetchHeroByID($heroId);
     }
+
+
+    /**
+     * Updates the Hero Table (changes level, todo : exp and level)
+     */
+    public function updateHero(Hero $hero){
+
+        $isDead = $hero->getIsDead();
+        $level = $hero->getLevel();
+        $id = $hero->getId();
+
+
+        $query = "UPDATE hero SET isDead = :isDead, level = :level WHERE id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':isDead', $isDead, PDO::PARAM_BOOL);
+        $stmt->bindParam(':level', $level, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        
+
+    }
+
+
+    // todo : update herostats
 }
