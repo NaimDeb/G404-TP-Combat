@@ -1,5 +1,13 @@
 <?php
 include_once "./assets/components/htmlstart.php";
+
+
+if (isset($_SESSION["currentHero"]) && $_SESSION["currentHero"]->getIsDead()) {
+    unset($_SESSION["currentHero"]);
+    setcookie("currentHeroId", "", time() - 3600, "/");
+}
+
+
 ?>
 
 <!-- Main Content -->
@@ -7,10 +15,16 @@ include_once "./assets/components/htmlstart.php";
 
 
         <!-- Créer un Héros -->
-    <section class="mt-12">
-        <a href="./createYourHero.php">
-            <h2 class="text-3xl  m-auto font-bold text-center w-fit px-8 py-2 text-slate-100 mb-8 outline outline-2 outline-purple-600 bg-purple-500 hover:bg-purple-600 hover:outline-purple-700 hover:scale-125 transition-all rounded-full">Commencez votre aventure</h2>
-        </a>
+    <section class="mt-12 group">
+        <?php if (!isset($_SESSION["currentHero"])): ?>
+            <a href="./createYourHero.php" class="w-fit">
+                <h2 class="text-3xl m-auto font-bold text-center w-fit px-8 py-2 text-slate-100 mb-8 outline outline-2 outline-purple-600 bg-purple-500 group-hover:bg-purple-600 group-hover:outline-purple-700 group-hover:scale-125 transition-all rounded-full">Commencez votre aventure</h2>
+            </a>
+        <?php else: ?>
+            <a href="./fight.php" class="w-fit">
+                <h2 class="text-3xl m-auto font-bold text-center w-fit px-8 py-2 text-slate-100 mb-8 outline outline-2 outline-green-600 bg-green-500 group-hover:bg-green-600 group-hover:outline-green-700 group-hover:scale-125 transition-all rounded-full">Continuer</h2>
+            </a>
+        <?php endif; ?>
     </section>
 
     <!-- Hall of fame of the fallen heroes -->
@@ -19,7 +33,7 @@ include_once "./assets/components/htmlstart.php";
         <div class="bg-gray-800 p-6 rounded-lg shadow-xl flex gap-4 overflow-x-scroll">
             <?php
             $heroRepo = new HeroRepository;
-            $allHeroes = $heroRepo->fetchAllHeroes();
+            $allHeroes = $heroRepo->fetchAllDeadHeroes();
 
             if (empty($allHeroes)) {
             ?>
