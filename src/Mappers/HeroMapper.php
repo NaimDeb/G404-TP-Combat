@@ -20,6 +20,8 @@ class HeroMapper
             $hero->changeExistingStat($statName, $value);
         }
 
+        $hero->initializeHP();
+
         $hero->updateSecondaryStats();
 
         return $hero;

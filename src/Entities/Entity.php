@@ -185,18 +185,19 @@ abstract class Entity {
 
     public function updateSecondaryStats(): self{
 
+        // todo : calculate stats better
 
-        // Update les stats et heal la différence
-        $healthPointDiff = $this->maxHealthPoints;
+        // Store the current max health points
+        $currentMaxHealthPoints = $this->maxHealthPoints;
 
-        // On change maxHealthPoints basé sur la constitution
+        // Update max health points based on constitution
         $this->maxHealthPoints = $this->stats["con"] * 10;
 
         // On prend la différence entre avant et maintenant
-        $healthPointDiff = $this->maxHealthPoints - $healthPointDiff;
+        $healthPointDiff = $this->maxHealthPoints - $currentMaxHealthPoints;
 
-        // On l'ajoute au points de vie
-        $this->healthPoints += $healthPointDiff;
+        // On l'ajoute au points de vie (ex 100 + -50 = 50)
+        $this->healthPoints =  min($this->maxHealthPoints, $this->healthPoints + $healthPointDiff);;
 
         // On change le reste des stats normalement.
         $this->attackSpeed = $this->stats["dex"];
@@ -208,12 +209,19 @@ abstract class Entity {
 
 }
 
+public function initializeHp(): self{
+
+    $this->healthPoints = $this->maxHealthPoints;
+
+    return $this;
+}
+
 
 
 /**
  * Get the value of maxHealthPoints
  */ 
-public function getMaxHealthPoints()
+public function getMaxHealthPoints(): int
 {
         return $this->maxHealthPoints;
 }
@@ -222,7 +230,7 @@ public function getMaxHealthPoints()
 /**
  * Get the value of attackSpeed
  */ 
-public function getAttackSpeed()
+public function getAttackSpeed(): int
 {
         return $this->attackSpeed;
 }
@@ -231,7 +239,7 @@ public function getAttackSpeed()
 /**
  * Get the value of attackDamage
  */ 
-public function getAttackDamage()
+public function getAttackDamage(): int
 {
         return $this->attackDamage;
 }
@@ -240,7 +248,7 @@ public function getAttackDamage()
 /**
  * Get the value of skillDamage
  */ 
-public function getSkillDamage()
+public function getSkillDamage(): int
 {
         return $this->skillDamage;
 }
@@ -248,7 +256,7 @@ public function getSkillDamage()
     /**
      * Get the value of isDead
      */ 
-    public function getIsDead()
+    public function getIsDead(): bool
     {
         return $this->isDead;
     }

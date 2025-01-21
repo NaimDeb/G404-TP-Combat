@@ -14,12 +14,11 @@ if (!isset($_SESSION["currentHero"])) {
  * @var Hero $myHero 
  */
 $myHero = $_SESSION["currentHero"]->updateSecondaryStats();
-
 /**
  * @var Monster $myEnemy 
  */
 $myEnemy = new Monster("Enemi de fou malade");
-$myEnemy->updateSecondaryStats();
+$myEnemy = $myEnemy->updateSecondaryStats();
 
 
 
