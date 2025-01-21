@@ -17,5 +17,7 @@ session_start();
 
     <!-- Header -->
     <header class="py-10">
+        <a href="./index.php">
         <h1 class="text-4xl font-extrabold text-center text-red-500 uppercase tracking-widest">TP Combat - L'Arène des Héros</h1>
+        </a>
     </header>

@@ -1,7 +1,5 @@
 <?php
 include_once "./assets/components/htmlstart.php";
-include_once "../assets/components/hasHeroAlready.php";
-
 ?>
 
 <h2 class="text-3xl font-bold text-center text-red-500 mb-8">Créez votre nouvel héros</h2>
