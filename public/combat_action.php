@@ -17,6 +17,7 @@ $fight = new FightManager($hero, $enemy);
 
 $input = $_POST;
 $action = $input['action'] ?? '';
+$entity = $input['entity'] ?? '';
 
 $response = ['message' => ''];
 

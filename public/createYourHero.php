@@ -15,7 +15,7 @@ include_once "./assets/components/htmlstart.php";
             <!-- Hidden file input -->
             <input type="file" id="hero-image" name="hero_image" accept="image/*" class="hidden" optional>
 
-            <!-- Image preview container -->bb
+            <!-- Image preview container -->
             <div class="relative w-full h-full">
                 <img id="image-preview" src="./assets/image/Heroes/defaultHero.png" alt="Preview" class="w-full h-full object-cover object-center rounded-lg">
 

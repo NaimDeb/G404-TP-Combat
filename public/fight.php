@@ -36,6 +36,15 @@ $fight = new FightManager($myHero, $myEnemy);
     <!-- todo : Action bar that shows who's getting the turn next -->
 
 
+    <!-- Bouton start fight -->
+
+    <section>
+        <div id="btnStartFight" class="bg-green-400 text-white px-4 py-2 w-full text-center">
+            Commencer le combat
+        </div>
+    </section>
+
+
 
     <section class="flex justify-around">
 
@@ -79,8 +88,16 @@ $fight = new FightManager($myHero, $myEnemy);
         </div>
     </section>
 
+
+
+
+    <!-- SCRIPT -->
+
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            const btnStartFight = document.getElementById('btnStartFight');
             const actionSection = document.getElementById('actionSection');
             const attackButton = document.querySelector('.btn-attack');
             const defendButton = document.querySelector('.btn-defend');
@@ -88,14 +105,29 @@ $fight = new FightManager($myHero, $myEnemy);
             const combatLog = document.getElementById('log');
             const inventoryList = document.getElementById('inventoryList');
 
-            attackButton.addEventListener("click", () => performAction('heroAttack'));
-            defendButton.addEventListener("click", () => performAction('heroDefend'));
-            skillButton.addEventListener("click", () => performAction('heroSkill'));
+            const heroAttack = () => performAction('heroAttack');
+            const heroDefend = () => performAction('heroDefend');
+            const heroSkill = () => performAction('heroSkill');
+
+            attackButton.addEventListener("click", heroAttack);
+            defendButton.addEventListener("click", heroDefend);
+            skillButton.addEventListener("click", heroSkill);
+            // !
+            btnStartFight.addEventListener("click", startFight)
+
+
+
+
+            function startFight() {
+                btnStartFight.style.display = "none";
+            }
 
             function updateEntity(entity) {
                 performAction('update', entity)
             }
 
+
+            // !
             async function performAction(action, entity = "hero") {
                 return fetch('combat_action.php', {
                         method: 'POST',
@@ -105,7 +137,7 @@ $fight = new FightManager($myHero, $myEnemy);
                         body: new URLSearchParams({
                             "action": action,
                             "entity": entity
-                        })
+                        }),
                     })
                     .then(response => {
                         if (!response.ok) {
@@ -119,6 +151,7 @@ $fight = new FightManager($myHero, $myEnemy);
                         if (data.gameOver) {
                             updateCombatLog(data.gameOverMessage);
                             showNextButton(data.gameOverHasHeroWon);
+                            stopActions();
                         }
                     })
                     .catch(error => console.error('Error:', error));
@@ -136,21 +169,21 @@ $fight = new FightManager($myHero, $myEnemy);
                     console.log("win");
 
                     nextButton.innerHTML = `
-            <a href="prepareForNextFight.php" class="text-2xl text-white text-center bg-green-700">
-            <div class="final-screen bg-green-600 text-white px-4 py-2 w-full text-center">
-            Préparez-vous pour le prochain combat !
-            </div></a>
-        `
+                    <a href="prepareForNextFight.php" class="text-2xl text-white text-center bg-green-700">
+                    <div class="final-screen bg-green-600 text-white px-4 py-2 w-full text-center">
+                    Préparez-vous pour le prochain combat !
+                    </div></a>
+                `
                 } else {
                     console.log('lose');
 
                     nextButton.innerHTML = `
-            <a href="youAreDead.php" class="text-2xl text-white text-center bg-red-700">
-                <div class="final-screen bg-red-600 text-white px-4 py-2 w-full text-center">
-                    Vous avez perdu
-                </div>
-            </a>
-            `
+                    <a href="youAreDead.php" class="text-2xl text-white text-center bg-red-700">
+                        <div class="final-screen bg-red-600 text-white px-4 py-2 w-full text-center">
+                            Vous avez perdu
+                        </div>
+                    </a>
+                `
                 }
             }
 
@@ -170,7 +203,72 @@ $fight = new FightManager($myHero, $myEnemy);
                 const li = document.createElement('li');
                 li.textContent = item;
                 inventoryList.appendChild(li);
-            });
+
+            })
+
+            function stopActions() {
+                attackButton.removeEventListener("click", heroAttack);
+                defendButton.removeEventListener("click", heroDefend);
+                skillButton.removeEventListener("click", heroSkill);
+            }
+
+
+
+            // Implémentation tour par tour
+
+            // Vitesse d'attaque des participants
+            heroAttackSpeed = <?php echo $myHero->getAttackSpeed() ?>;
+            enemyAttackSpeed = <?php echo $myEnemy->getAttackSpeed() ?>;
+
+            // Nombre de ticks dans un tour
+            turnSpeed = 1000;
+
+            // Accumulateurs de ticks pour le héros et l'ennemi
+            heroTicks = 0;
+            enemyTicks = 0;
+
+
+            isFightPaused = false;
+
+
+            while (isFightPaused == false) { // Simulation du combat
+                // Ajouter les ticks basés sur les vitesses
+                heroTicks += heroAttackSpeed;
+                enemyTicks += enemyAttackSpeed;
+
+                console.log("hero ticks : " + heroTicks);
+                console.log("enemy ticks : " + enemyTicks);
+
+                
+
+                // Vérifier si le héros peut attaquer
+                if (heroTicks >= turnSpeed) {
+                    console.log("Hero's turn !");
+                    
+                    heroTicks -= turnSpeed; // On réinitialise les ticks
+                    isFightPaused = true
+                }
+
+                // Vérifier si l'ennemi peut attaquer
+                if (enemyTicks >= turnSpeed) {
+                    console.log("Enemy's turn !");
+
+                    enemyAction();
+                    enemyTicks -= turnSpeed; // On réinitialise les ticks
+                }
+
+            }
+
+
+            // todo : more actions, it only attacks for now
+            function enemyAction() {
+
+                performAction('enemyAttack');
+
+            }
+
+
+
         });
     </script>
 
