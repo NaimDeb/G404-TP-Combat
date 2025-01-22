@@ -10,6 +10,8 @@ if (!isset($_SESSION["currentHero"])) {
         header("location: ./index.php");
     }
 }
+
+
 /**
  * @var Hero $myHero 
  */
