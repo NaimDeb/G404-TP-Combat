@@ -45,7 +45,9 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(data => {
                 updateCombatLog(data.message);
                 refreshEntities(data.hero, data.enemy);
+
                 if (data.gameOver) {
+                    console.log("game over");
                     updateCombatLog(data.gameOverMessage);
                     showNextButton(data.gameOverHasHeroWon);
                     console.log(data.gameOverHasHeroWon);
@@ -85,18 +87,19 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log("win");
 
             nextButton.innerHTML = `
-            <a href="prepareForNextFight.php" class="text-2xl text-white text-center bg-green-700">
-            <div class="final-screen bg-green-600 text-white px-4 py-2 w-full text-center">
-            Préparez-vous pour le prochain combat !
-            </div></a>
+            <a href="prepareForNextFight.php" class="text-2xl text-white text-center ">
+                <div class=" text-white px-4 py-2 w-full text-center bg-green-600">
+                    Vous avez gagné le combat ! <br> Préparez vous -->
+                </div>
+            </a>
         `
         } else {
             console.log('lose');
 
             nextButton.innerHTML = `
-            <a href="youAreDead.php" class="text-2xl text-white text-center bg-red-700">
-                <div class="final-screen bg-red-600 text-white px-4 py-2 w-full text-center">
-                    Vous avez perdu
+            <a href="youAreDead.php" class="text-2xl text-white text-center ">
+                <div class=" text-white px-4 py-2 w-full text-center bg-red-700">
+                    Vous avez perdu <br> --> Score final
                 </div>
             </a>
         `
@@ -202,35 +205,6 @@ document.addEventListener("DOMContentLoaded", function() {
             enemyTicks -= turnSpeed; // On réinitialise les ticks
         }
     }
-
-
-    // while (isFightPaused == false) { // Simulation du combat
-        //     // Ajouter les ticks basés sur les vitesses
-        //     heroTicks += heroAttackSpeed;
-        //     enemyTicks += enemyAttackSpeed;
-
-        //     console.log("hero ticks : " + heroTicks);
-        //     console.log("enemy ticks : " + enemyTicks);
-
-
-
-        //     // Vérifier si le héros peut attaquer
-        //     if (heroTicks >= turnSpeed) {
-        //         console.log("Hero's turn !");
-
-        //         heroTicks -= turnSpeed; // On réinitialise les ticks
-        //         isFightPaused = true
-        //     }
-
-        //     // Vérifier si l'ennemi peut attaquer
-        //     if (enemyTicks >= turnSpeed) {
-        //         console.log("Enemy's turn !");
-
-        //         enemyAction();
-        //         enemyTicks -= turnSpeed; // On réinitialise les ticks
-        //     }
-
-    // }
 
 
     // --------ACTIONS--------

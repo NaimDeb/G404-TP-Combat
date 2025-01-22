@@ -89,7 +89,11 @@ final class HeroRepository extends AbstractRepository
         WHERE
             hero.isDead = 1
         GROUP BY 
-            hero.id, hero.name, hero.url_image, hero.isDead, hero.level;";
+            hero.id, hero.name, hero.url_image, hero.isDead, hero.level
+        ORDER BY
+            hero.id DESC
+        LIMIT 20
+        ";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
 

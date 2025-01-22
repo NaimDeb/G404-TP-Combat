@@ -58,8 +58,8 @@ if ($enemy->getHealthPoints() <= 0) {
 } elseif ($hero->getHealthPoints() <= 0) {
     $response['gameOver'] = true;
     $response['gameOverHasHeroWon'] = false;
+    $hero->dieForever();
     $response['gameOverMessage'] = "L'ennemi vous a battu !";
-    unset($_SESSION["currentHero"]);
 }
 
 echo json_encode($response);

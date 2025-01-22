@@ -7,6 +7,9 @@ if (!isset($_SESSION["currentHero"])) {
         $heroRepo = new HeroRepository;
         $_SESSION["currentHero"] = $heroRepo->fetchHeroByID($_COOKIE["currentHeroId"]);
     } else {
+
+        var_dump("ya po");
+        die();
         header("location: ./index.php");
     }
 }
@@ -16,6 +19,8 @@ if (!isset($_SESSION["currentHero"])) {
  * @var Hero $myHero 
  */
 $myHero = $_SESSION["currentHero"];
+unset($_SESSION["currentHero"]);
+unset($_COOKIE["currentHeroId"]);
 
 ?>
 
