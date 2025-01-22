@@ -49,6 +49,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 refreshEntities(data.hero, data.enemy);
 
                 turnDiv.innerHTML = ''
+                
+                heroBar.style.width =  "0%";
+                heroMarker.style.left =  "0%";
+                heroProgress.style.left =  "0%";
 
                 if (data.gameOver) {
                     console.log("game over");
@@ -189,10 +193,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
             heroTicks -= turnSpeed; // On réinitialise les ticks
             // On remet la barre a 0
-            heroBar.style.width =  "0%";
-            heroMarker.style.left =  "0%";
-            heroProgress.style.left =  "0%";
-
             turnDiv.innerHTML = "C'est votre tour !";
             startActions();
             isFightPaused = true
