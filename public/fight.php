@@ -57,7 +57,7 @@ $fight = new FightManager($myHero, $myEnemy);
             Commencer le combat
         </div>
 
-        <div id="log" class="bg-opacity-10 bg-black w-full text-center flex flex-col gap-8 py-3 overflow-y-auto overflow-ellipsis basis-1/2 my-8  h-[500px] max-h-[500px] scrollbar-hide">
+        <div id="log" class="bg-opacity-10 bg-black w-full text-center flex flex-col gap-8 py-3 overflow-y-auto overflow-ellipsis  my-8  h-[450px] max-h-[450px] scrollbar-hide">
             <!-- Log items will be added here -->
         </div>
 
