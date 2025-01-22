@@ -61,6 +61,8 @@ $fight = new FightManager($myHero, $myEnemy);
             <!-- Log items will be added here -->
         </div>
 
+        <div id="turnDiv" class="text-3xl text-white m-auto"></div>
+
         <section id="progress-bar" class="relative h-6 bg-gray-400 rounded-lg my-4 w-1/2 mx-auto">
             <!-- Barre de progression du héros -->
             <div class="absolute top-0 left-0 w-full h-full flex items-center">
@@ -101,18 +103,18 @@ $fight = new FightManager($myHero, $myEnemy);
     <section id="nextButton" class="m-auto w-1/5 min-h-[200px] "></section>
 
 
-    <section class="w-full flex justify-between items-center mt-10 fixed bottom-0 px-16 py-4 bg-purple-800 bg-opacity-35" id="actionSection">
-        <div class="flex gap-4">
-            <button class="btn btn-attack bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Attaquer</button>
-            <button class="btn btn-defend bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">Défendre</button>
-            <button class="btn btn-skill bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Compétences</button>
-        </div>
-        <div class="inventory outline outline-1 outline-black p-4 rounded-md mt-4">
+    <section class="w-full flex justify-between items-center mt-10 fixed bottom-0 px-16 py-4 bg- bg-opacity-35" id="actionSection">
+        <!-- <div class="inventory outline outline-1 outline-black p-4 rounded-md mt-4">
             <h3 class="text-lg font-bold mb-2">Inventaire</h3>
-            <ul id="inventoryList" class="list-none flex gap-4 flex-wrap max-w-1/3 pl-5">
-                <!-- Inventory items will be listed here -->
+            <ul id="inventoryList" class="list-none flex gap-4 flex-wrap max-w-1/3 pl-5"> -->
+                <!-- Inventory items will be listed here
             </ul>
-        </div>
+        </div> -->
+        <!-- <div class="flex gap-4"> -->
+            <button class="btn btn-attack text-2xl bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded m-auto mb-16">Attaquer</button>
+            <!-- <button class="btn btn-defend bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">Défendre</button> -->
+            <!-- <button class="btn btn-skill bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Compétences</button> -->
+        <!-- </div> -->
     </section>
 
 

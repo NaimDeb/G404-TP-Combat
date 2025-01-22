@@ -1,11 +1,13 @@
 document.addEventListener("DOMContentLoaded", function() {
     const btnStartFight = document.getElementById('btnStartFight');
-    const actionSection = document.getElementById('actionSection');
+    // const actionSection = document.getElementById('actionSection');
     const attackButton = document.querySelector('.btn-attack');
-    const defendButton = document.querySelector('.btn-defend');
-    const skillButton = document.querySelector('.btn-skill');
+    // const defendButton = document.querySelector('.btn-defend');
+    // const skillButton = document.querySelector('.btn-skill');
     const combatLog = document.getElementById('log');
     const inventoryList = document.getElementById('inventoryList');
+
+    const turnDiv = document.getElementById('turnDiv');
 
 
     // Progress bar
@@ -45,6 +47,8 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(data => {
                 updateCombatLog(data.message);
                 refreshEntities(data.hero, data.enemy);
+
+                turnDiv.innerHTML = ''
 
                 if (data.gameOver) {
                     console.log("game over");
@@ -189,6 +193,7 @@ document.addEventListener("DOMContentLoaded", function() {
             heroMarker.style.left =  "0%";
             heroProgress.style.left =  "0%";
 
+            turnDiv.innerHTML = "C'est votre tour !";
             startActions();
             isFightPaused = true
         }
@@ -236,15 +241,15 @@ document.addEventListener("DOMContentLoaded", function() {
     // --------INVENTAIRE --------
 
     // Example inventory items
-    const inventoryItems = ["Potion de soin", "Élixir de mana", "Pierre magique"];
+    // const inventoryItems = ["Potion de soin", "Élixir de mana", "Pierre magique"];
 
 
-    inventoryItems.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        inventoryList.appendChild(li);
+    // inventoryItems.forEach(item => {
+    //     const li = document.createElement('li');
+    //     li.textContent = item;
+    //     inventoryList.appendChild(li);
 
-    })
+    // })
 
 
 });
