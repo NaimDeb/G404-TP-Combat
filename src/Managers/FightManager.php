@@ -48,7 +48,7 @@ class FightManager
     <img 
         src="<?= $entityImage; ?>" 
         alt="<?= $entityName; ?>" 
-        class="max-w-[250px] max-h-[250px] rounded-lg shadow-md">
+        class="max-w-[250px] max-h-[250px] min-w-[250px] min-h-[250px]  rounded-lg shadow-md">
     <!-- Stats -->
     <div class="text-sm text-center space-y-1">
         <p>Attack Speed: <?= $entityAttackSpeed; ?></p>
