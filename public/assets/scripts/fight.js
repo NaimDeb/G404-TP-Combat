@@ -48,6 +48,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (data.gameOver) {
                     updateCombatLog(data.gameOverMessage);
                     showNextButton(data.gameOverHasHeroWon);
+                    console.log(data.gameOverHasHeroWon);
+                    
                     stopActions();
                     clearInterval(fightInterval);
                 }
@@ -79,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // CSS Update
     function showNextButton(hasHeroWon) {
-        if (true) {
+        if (hasHeroWon == true) {
             console.log("win");
 
             nextButton.innerHTML = `
@@ -106,6 +108,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const logEntry = document.createElement('div');
         logEntry.innerHTML = message;
         combatLog.appendChild(logEntry);
+        // Scroll en bas todo : pas faire un getElement a chaque fois
+        document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
     }
 
 
@@ -114,6 +118,13 @@ document.addEventListener("DOMContentLoaded", function() {
         attackButton.removeEventListener("click", heroAttack);
         // defendButton.removeEventListener("click", heroDefend);
         // skillButton.removeEventListener("click", heroSkill);
+    }
+
+    // Add back event listeners when it's your turn
+    function startActions() {
+        attackButton.addEventListener("click", heroAttack);
+        // defendButton.addEventListener("click", heroDefend);
+        // skillButton.addEventListener("click", heroSkill);
     }
 
 
@@ -144,9 +155,9 @@ document.addEventListener("DOMContentLoaded", function() {
         heroTicks += heroAttackSpeed;
         enemyTicks += enemyAttackSpeed;
 
-        // ! Log to remove
-        console.log("hero ticks : " + heroTicks);
-        console.log("enemy ticks : " + enemyTicks);
+        // // ! Log to remove
+        // console.log("hero ticks : " + heroTicks);
+        // console.log("enemy ticks : " + enemyTicks);
 
 
          // Remplir la barre du héros en fonction des ticks
@@ -165,6 +176,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+        //  Quand c'est le tour du héros
         if (heroTicks >= turnSpeed) {
             console.log("----------------Hero's turn !----------------");
 
@@ -174,10 +186,11 @@ document.addEventListener("DOMContentLoaded", function() {
             heroMarker.style.left =  "0%";
             heroProgress.style.left =  "0%";
 
+            startActions();
             isFightPaused = true
         }
 
-        // Vérifier si l'ennemi peut attaquer
+        // Quand c'ets le tour de l'ennemi
         if (enemyTicks >= turnSpeed) {
             console.log("----------------Enemy's turn !----------------");
 
@@ -192,30 +205,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     // while (isFightPaused == false) { // Simulation du combat
-    //     // Ajouter les ticks basés sur les vitesses
-    //     heroTicks += heroAttackSpeed;
-    //     enemyTicks += enemyAttackSpeed;
+        //     // Ajouter les ticks basés sur les vitesses
+        //     heroTicks += heroAttackSpeed;
+        //     enemyTicks += enemyAttackSpeed;
 
-    //     console.log("hero ticks : " + heroTicks);
-    //     console.log("enemy ticks : " + enemyTicks);
+        //     console.log("hero ticks : " + heroTicks);
+        //     console.log("enemy ticks : " + enemyTicks);
 
 
 
-    //     // Vérifier si le héros peut attaquer
-    //     if (heroTicks >= turnSpeed) {
-    //         console.log("Hero's turn !");
+        //     // Vérifier si le héros peut attaquer
+        //     if (heroTicks >= turnSpeed) {
+        //         console.log("Hero's turn !");
 
-    //         heroTicks -= turnSpeed; // On réinitialise les ticks
-    //         isFightPaused = true
-    //     }
+        //         heroTicks -= turnSpeed; // On réinitialise les ticks
+        //         isFightPaused = true
+        //     }
 
-    //     // Vérifier si l'ennemi peut attaquer
-    //     if (enemyTicks >= turnSpeed) {
-    //         console.log("Enemy's turn !");
+        //     // Vérifier si l'ennemi peut attaquer
+        //     if (enemyTicks >= turnSpeed) {
+        //         console.log("Enemy's turn !");
 
-    //         enemyAction();
-    //         enemyTicks -= turnSpeed; // On réinitialise les ticks
-    //     }
+        //         enemyAction();
+        //         enemyTicks -= turnSpeed; // On réinitialise les ticks
+        //     }
 
     // }
 
@@ -223,6 +236,9 @@ document.addEventListener("DOMContentLoaded", function() {
     // --------ACTIONS--------
 
     // todo : more actions, it only attacks for now
+    
+    
+    
     function enemyAction() {
         performAction('enemyAttack');
     }
@@ -234,6 +250,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             .then(() => {
                 isFightPaused = false; // Reprendre la simulation de combat après l'action
+                stopActions();
             })
             .catch(error => {
                 console.error("Erreur lors de l'attaque du héros :", error);

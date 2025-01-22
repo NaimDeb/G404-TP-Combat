@@ -90,7 +90,7 @@ if (isset($_FILES) && $_FILES['hero_image']['error'] === UPLOAD_ERR_OK) {
     $sanitizedPOST["filename"] = $fileName;
 };
 
-// // On crée l'utilisateur
+// On crée l'utilisateur
 $myRepository = new HeroRepository;
 
 $hero = $myRepository->createHero($sanitizedPOST);
